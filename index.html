@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Blog</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navbar -->
+    <header class="bg-white shadow-sm">
+
+        <nav class="max-w-7xl mx-auto px-6 py-4
+                    flex flex-col md:flex-row
+                    items-center justify-between gap-4">
+
+            <h1 class="text-2xl font-bold text-blue-600">
+                My Blog
+            </h1>
+
+            <div class="flex flex-wrap justify-center gap-6">
+
+                <a
+                    href="index.html"
+                    class="text-gray-700 hover:text-blue-600
+                           transition font-medium"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="login.html"
+                    class="text-gray-700 hover:text-blue-600
+                           transition font-medium"
+                >
+                    Login
+                </a>
+
+                <a
+                    href="register.html"
+                    class="text-gray-700 hover:text-blue-600
+                           transition font-medium"
+                >
+                    Register
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- Main -->
+    <main>
+
+        <!-- Hero Section -->
+        <section
+            class="bg-gradient-to-r from-blue-600 to-indigo-600
+                   text-white"
+        >
+
+            <div
+                class="max-w-7xl mx-auto px-6 py-20
+                       text-center"
+            >
+
+                <h2
+                    class="text-4xl md:text-5xl
+                           font-bold mb-5"
+                >
+                    Welcome to My Blog
+                </h2>
+
+                <p
+                    class="text-lg md:text-xl
+                           text-blue-100 mb-8"
+                >
+                    Read, write and share your thoughts
+                    with the world.
+                </p>
+
+                <a href="create-blog.html">
+
+                    <button
+                        type="button"
+                        class="bg-white text-blue-600
+                               px-6 py-3 rounded-lg
+                               font-semibold
+                               hover:bg-gray-100
+                               hover:-translate-y-1
+                               transition shadow-md"
+                    >
+                        Create Blog
+                    </button>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- Latest Blogs -->
+        <section
+            class="max-w-7xl mx-auto
+                   px-6 py-16"
+        >
+
+            <div class="text-center mb-10">
+
+                <h2
+                    class="text-3xl font-bold
+                           text-gray-900"
+                >
+                    Latest Blogs
+                </h2>
+
+                <p class="text-gray-500 mt-2">
+                    Explore the latest posts from our community.
+                </p>
+
+            </div>
+
+
+            <!-- JavaScript will insert blogs here -->
+            <div
+                id="homeBlogContainer"
+                class="grid grid-cols-1
+                       md:grid-cols-2
+                       lg:grid-cols-3
+                       gap-8"
+            >
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300">
+
+        <div
+            class="max-w-7xl mx-auto
+                   px-6 py-6 text-center"
+        >
+
+            <p>
+                &copy; 2026 My Blog.
+                All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- Existing JavaScript -->
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Blog - My Blog</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-gray-50 text-gray-800">
+
+    <!-- Navbar -->
+
+    <header class="bg-white shadow-sm">
+
+        <nav
+            class="max-w-7xl mx-auto px-6 py-4
+                   flex flex-col md:flex-row
+                   items-center justify-between gap-4"
+        >
+
+            <a
+                href="index.html"
+                class="text-2xl font-bold text-blue-600"
+            >
+                My Blog
+            </a>
+
+            <div class="flex items-center gap-5">
+
+                <a
+                    href="index.html"
+                    class="text-gray-600
+                           hover:text-blue-600 transition"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="dashboard.html"
+                    class="text-gray-600
+                           hover:text-blue-600 transition"
+                >
+                    Dashboard
+                </a>
+
+                <button
+                    id="logoutBtn"
+                    class="text-red-500
+                           hover:text-red-700
+                           font-medium transition"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- Main -->
+
+    <main
+        class="max-w-4xl mx-auto
+               px-6 py-10"
+    >
+
+        <!-- Page Heading -->
+
+        <div class="mb-8">
+
+            <h1
+                class="text-3xl md:text-4xl
+                       font-bold text-gray-900"
+            >
+                Create Your Blog
+            </h1>
+
+            <p class="text-gray-500 mt-2">
+                Share your thoughts and ideas with the world.
+            </p>
+
+        </div>
+
+
+        <!-- Blog Form -->
+
+        <div
+            class="bg-white rounded-2xl
+                   shadow-sm border border-gray-100
+                   p-6 md:p-8"
+        >
+
+            <form id="blogForm">
+
+                <!-- Title -->
+
+                <div class="mb-6">
+
+                    <label
+                        for="blogTitle"
+                        class="block text-sm
+                               font-semibold
+                               text-gray-700 mb-2"
+                    >
+                        Blog Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="blogTitle"
+                        placeholder="Enter your blog title"
+                        required
+                        class="w-full px-4 py-3
+                               border border-gray-300
+                               rounded-lg
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-blue-500
+                               focus:border-blue-500
+                               transition"
+                    >
+
+                </div>
+
+
+                <!-- Category -->
+
+                <div class="mb-6">
+
+                    <label
+                        for="blogCategory"
+                        class="block text-sm
+                               font-semibold
+                               text-gray-700 mb-2"
+                    >
+                        Category
+                    </label>
+
+                    <select
+                        id="blogCategory"
+                        required
+                        class="w-full px-4 py-3
+                               border border-gray-300
+                               rounded-lg
+                               bg-white
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-blue-500
+                               focus:border-blue-500
+                               transition"
+                    >
+
+                        <option value="">
+                            Select a category
+                        </option>
+
+                        <option value="Technology">
+                            Technology
+                        </option>
+
+                        <option value="Web Development">
+                            Web Development
+                        </option>
+
+                        <option value="Programming">
+                            Programming
+                        </option>
+
+                        <option value="Education">
+                            Education
+                        </option>
+
+                        <option value="Lifestyle">
+                            Lifestyle
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Content -->
+
+                <div class="mb-6">
+
+                    <label
+                        for="blogContent"
+                        class="block text-sm
+                               font-semibold
+                               text-gray-700 mb-2"
+                    >
+                        Blog Content
+                    </label>
+
+                    <textarea
+                        id="blogContent"
+                        rows="10"
+                        placeholder="Write your blog content here..."
+                        required
+                        class="w-full px-4 py-3
+                               border border-gray-300
+                               rounded-lg
+                               resize-y
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-blue-500
+                               focus:border-blue-500
+                               transition"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Image -->
+
+                <div class="mb-6">
+
+                    <label
+                        for="blogImage"
+                        class="block text-sm
+                               font-semibold
+                               text-gray-700 mb-2"
+                    >
+                        Blog Image
+                    </label>
+
+                    <input
+                        type="file"
+                        id="blogImage"
+                        accept="image/*"
+                        class="w-full px-4 py-3
+                               border border-gray-300
+                               rounded-lg
+                               bg-white
+                               text-gray-600
+                               cursor-pointer
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-blue-500"
+                    >
+
+                    <p class="text-xs text-gray-400 mt-2">
+                        Select an image for your blog.
+                    </p>
+
+
+                    <!-- Image Preview -->
+
+                    <div
+                        id="imagePreviewContainer"
+                        class="hidden mt-5"
+                    >
+
+                        <p
+                            class="text-sm font-medium
+                                   text-gray-700 mb-2"
+                        >
+                            Image Preview
+                        </p>
+
+                        <img
+                            id="imagePreview"
+                            src=""
+                            alt="Blog image preview"
+                            class="w-full max-w-lg
+                                   h-64 object-cover
+                                   rounded-xl border
+                                   border-gray-200
+                                   shadow-sm"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Error -->
+
+                <p
+                    id="blogError"
+                    class="text-red-500 text-sm
+                           mb-5 min-h-[20px]"
+                ></p>
+
+
+                <!-- Buttons -->
+
+                <div
+                    class="flex flex-col sm:flex-row
+                           gap-3"
+                >
+
+                    <button
+                        type="submit"
+                        id="blogSubmitButton"
+                        class="flex-1 bg-blue-600
+                               text-white py-3 px-6
+                               rounded-lg
+                               font-semibold
+                               hover:bg-blue-700
+                               hover:-translate-y-0.5
+                               transition shadow-md"
+                    >
+                        Publish Blog
+                    </button>
+
+                    <a
+                        href="dashboard.html"
+                        class="flex-1 text-center
+                               bg-gray-100
+                               text-gray-700
+                               py-3 px-6
+                               rounded-lg
+                               font-semibold
+                               hover:bg-gray-200
+                               transition"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer
+        class="bg-gray-900
+               text-gray-300 mt-10"
+    >
+
+        <div
+            class="max-w-7xl mx-auto
+                   px-6 py-6 text-center"
+        >
+
+            <p>
+                &copy; 2026 My Blog.
+                All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- Existing JavaScript -->
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
+
