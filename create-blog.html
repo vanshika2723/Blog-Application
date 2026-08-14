@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,53 +9,144 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Create Blog - My Blog</title>
+    <title>Create Blog | My Blog</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ["Inter", "ui-sans-serif", "system-ui"]
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
-<body class="min-h-screen bg-gray-50 text-gray-800">
 
-    <!-- Navbar -->
+<body class="min-h-screen bg-slate-50 text-slate-800 font-sans">
 
-    <header class="bg-white shadow-sm">
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header
+        class="sticky top-0 z-50
+               bg-white/90 backdrop-blur-xl
+               border-b border-slate-200/70"
+    >
 
         <nav
-            class="max-w-7xl mx-auto px-6 py-4
-                   flex flex-col md:flex-row
-                   items-center justify-between gap-4"
+            class="max-w-7xl mx-auto
+                   h-20
+                   px-5 sm:px-6 lg:px-8
+                   flex items-center
+                   justify-between"
         >
+
+            <!-- Logo -->
 
             <a
                 href="index.html"
-                class="text-2xl font-bold text-blue-600"
+                class="flex items-center gap-3 group"
             >
-                My Blog
+
+                <div
+                    class="w-10 h-10
+                           rounded-xl
+                           bg-slate-900
+                           flex items-center
+                           justify-center
+                           shadow-md
+                           group-hover:bg-indigo-600
+                           transition"
+                >
+
+                    <span
+                        class="text-white
+                               font-black
+                               text-lg"
+                    >
+                        M
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <h1
+                        class="text-xl
+                               font-extrabold
+                               tracking-tight
+                               text-slate-900"
+                    >
+                        My Blog
+                    </h1>
+
+                    <p
+                        class="hidden sm:block
+                               text-[10px]
+                               uppercase
+                               tracking-[0.2em]
+                               text-slate-400"
+                    >
+                        Create Post
+                    </p>
+
+                </div>
+
             </a>
 
-            <div class="flex items-center gap-5">
+
+            <!-- Navigation -->
+
+            <div
+                class="flex items-center
+                       gap-2 sm:gap-5"
+            >
 
                 <a
                     href="index.html"
-                    class="text-gray-600
-                           hover:text-blue-600 transition"
+                    class="hidden sm:block
+                           text-sm
+                           font-medium
+                           text-slate-500
+                           hover:text-indigo-600
+                           transition"
                 >
                     Home
                 </a>
 
+
                 <a
                     href="dashboard.html"
-                    class="text-gray-600
-                           hover:text-blue-600 transition"
+                    class="hidden sm:block
+                           text-sm
+                           font-medium
+                           text-slate-500
+                           hover:text-indigo-600
+                           transition"
                 >
                     Dashboard
                 </a>
 
+
                 <button
                     id="logoutBtn"
-                    class="text-red-500
-                           hover:text-red-700
-                           font-medium transition"
+                    class="px-3
+                           py-2
+                           text-sm
+                           font-semibold
+                           text-red-500
+                           hover:text-red-600
+                           hover:bg-red-50
+                           rounded-lg
+                           transition"
                 >
                     Logout
                 </button>
@@ -68,269 +158,734 @@
     </header>
 
 
-    <!-- Main -->
 
-    <main
-        class="max-w-4xl mx-auto
-               px-6 py-10"
+    <!-- =====================================================
+         PAGE HERO
+    ====================================================== -->
+
+    <section
+        class="relative
+               overflow-hidden
+               bg-slate-950"
     >
 
-        <!-- Page Heading -->
+        <!-- Gradient -->
 
-        <div class="mb-8">
+        <div
+            class="absolute inset-0
+                   bg-gradient-to-br
+                   from-indigo-950
+                   via-slate-950
+                   to-purple-950"
+        ></div>
 
-            <h1
-                class="text-3xl md:text-4xl
-                       font-bold text-gray-900"
+
+        <!-- Glow -->
+
+        <div
+            class="absolute
+                   -top-32
+                   -left-20
+                   w-96 h-96
+                   rounded-full
+                   bg-indigo-600/25
+                   blur-3xl"
+        ></div>
+
+
+        <div
+            class="absolute
+                   -bottom-40
+                   -right-20
+                   w-96 h-96
+                   rounded-full
+                   bg-purple-600/20
+                   blur-3xl"
+        ></div>
+
+
+        <div
+            class="relative z-10
+                   max-w-5xl mx-auto
+                   px-5 sm:px-6
+                   py-14 sm:py-16"
+        >
+
+            <div
+                class="flex flex-col
+                       md:flex-row
+                       md:items-end
+                       md:justify-between
+                       gap-8"
             >
-                Create Your Blog
-            </h1>
 
-            <p class="text-gray-500 mt-2">
-                Share your thoughts and ideas with the world.
-            </p>
+                <!-- Heading -->
+
+                <div>
+
+                    <span
+                        class="inline-flex
+                               items-center
+                               gap-2
+                               px-4 py-2
+                               rounded-full
+                               border border-white/10
+                               bg-white/5
+                               text-indigo-300
+                               text-sm
+                               font-medium"
+                    >
+
+                        <span>✍️</span>
+
+                        Create something meaningful
+
+                    </span>
+
+
+                    <h1
+                        class="mt-5
+                               text-4xl
+                               sm:text-5xl
+                               font-extrabold
+                               tracking-tight
+                               text-white"
+                    >
+                        Write your story.
+                    </h1>
+
+
+                    <p
+                        class="mt-4
+                               max-w-2xl
+                               text-slate-300
+                               leading-7"
+                    >
+                        Turn your ideas into engaging stories
+                        and share them with the My Blog community.
+                    </p>
+
+                </div>
+
+
+                <!-- Status -->
+
+                <div
+                    class="hidden md:flex
+                           items-center
+                           gap-3
+                           px-4 py-3
+                           rounded-xl
+                           border border-white/10
+                           bg-white/5"
+                >
+
+                    <span
+                        class="w-2.5 h-2.5
+                               rounded-full
+                               bg-emerald-400"
+                    ></span>
+
+
+                    <span
+                        class="text-sm
+                               text-slate-300"
+                    >
+                        Ready to publish
+                    </span>
+
+                </div>
+
+            </div>
 
         </div>
 
+    </section>
 
-        <!-- Blog Form -->
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main
+        class="max-w-5xl mx-auto
+               px-5 sm:px-6
+               py-10 sm:py-12"
+    >
+
+
+        <!-- Form -->
 
         <div
-            class="bg-white rounded-2xl
-                   shadow-sm border border-gray-100
-                   p-6 md:p-8"
+            class="bg-white
+                   rounded-[28px]
+                   border border-slate-200
+                   shadow-[0_20px_60px_-20px_rgba(15,23,42,0.18)]
+                   overflow-hidden"
         >
 
-            <form id="blogForm">
 
-                <!-- Title -->
+            <!-- Form Header -->
 
-                <div class="mb-6">
+            <div
+                class="px-6 sm:px-8 lg:px-10
+                       py-6
+                       border-b
+                       border-slate-100
+                       bg-slate-50/70"
+            >
+
+                <div
+                    class="flex
+                           items-center
+                           gap-4"
+                >
+
+                    <div
+                        class="w-11 h-11
+                               rounded-xl
+                               bg-indigo-100
+                               flex items-center
+                               justify-center"
+                    >
+
+                        <span class="text-xl">
+                            📝
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2
+                            class="text-lg
+                                   sm:text-xl
+                                   font-bold
+                                   text-slate-900"
+                        >
+                            Blog Information
+                        </h2>
+
+
+                        <p
+                            class="text-sm
+                                   text-slate-500
+                                   mt-1"
+                        >
+                            Add the details of your new blog post.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 BLOG FORM
+            ================================================== -->
+
+            <form
+                id="blogForm"
+                class="p-6 sm:p-8 lg:p-10"
+            >
+
+
+                <!-- =================================================
+                     TITLE
+                ================================================== -->
+
+                <div class="mb-7">
 
                     <label
                         for="blogTitle"
-                        class="block text-sm
-                               font-semibold
-                               text-gray-700 mb-2"
+                        class="block
+                               text-sm
+                               font-bold
+                               text-slate-700
+                               mb-2"
                     >
                         Blog Title
                     </label>
 
+
                     <input
                         type="text"
                         id="blogTitle"
-                        placeholder="Enter your blog title"
+                        placeholder="Give your story an engaging title..."
                         required
-                        class="w-full px-4 py-3
-                               border border-gray-300
-                               rounded-lg
-                               focus:outline-none
-                               focus:ring-2
-                               focus:ring-blue-500
-                               focus:border-blue-500
-                               transition"
+                        class="w-full
+                               px-4 py-3.5
+                               rounded-xl
+                               border border-slate-200
+                               bg-slate-50
+                               text-slate-900
+                               placeholder-slate-400
+                               outline-none
+                               transition-all
+                               focus:bg-white
+                               focus:border-indigo-500
+                               focus:ring-4
+                               focus:ring-indigo-500/10"
                     >
+
+
+                    <p
+                        class="mt-2
+                               text-xs
+                               text-slate-400"
+                    >
+                        Make it clear, interesting and easy to remember.
+                    </p>
 
                 </div>
 
 
-                <!-- Category -->
 
-                <div class="mb-6">
+                <!-- =================================================
+                     CATEGORY
+                ================================================== -->
+
+                <div class="mb-7">
 
                     <label
                         for="blogCategory"
-                        class="block text-sm
-                               font-semibold
-                               text-gray-700 mb-2"
+                        class="block
+                               text-sm
+                               font-bold
+                               text-slate-700
+                               mb-2"
                     >
                         Category
                     </label>
 
-                    <select
-                        id="blogCategory"
-                        required
-                        class="w-full px-4 py-3
-                               border border-gray-300
-                               rounded-lg
-                               bg-white
-                               focus:outline-none
-                               focus:ring-2
-                               focus:ring-blue-500
-                               focus:border-blue-500
-                               transition"
-                    >
 
-                        <option value="">
-                            Select a category
-                        </option>
+                    <div class="relative">
 
-                        <option value="Technology">
-                            Technology
-                        </option>
-
-                        <option value="Web Development">
-                            Web Development
-                        </option>
-
-                        <option value="Programming">
-                            Programming
-                        </option>
-
-                        <option value="Education">
-                            Education
-                        </option>
-
-                        <option value="Lifestyle">
-                            Lifestyle
-                        </option>
-
-                        <option value="Other">
-                            Other
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- Content -->
-
-                <div class="mb-6">
-
-                    <label
-                        for="blogContent"
-                        class="block text-sm
-                               font-semibold
-                               text-gray-700 mb-2"
-                    >
-                        Blog Content
-                    </label>
-
-                    <textarea
-                        id="blogContent"
-                        rows="10"
-                        placeholder="Write your blog content here..."
-                        required
-                        class="w-full px-4 py-3
-                               border border-gray-300
-                               rounded-lg
-                               resize-y
-                               focus:outline-none
-                               focus:ring-2
-                               focus:ring-blue-500
-                               focus:border-blue-500
-                               transition"
-                    ></textarea>
-
-                </div>
-
-
-                <!-- Image -->
-
-                <div class="mb-6">
-
-                    <label
-                        for="blogImage"
-                        class="block text-sm
-                               font-semibold
-                               text-gray-700 mb-2"
-                    >
-                        Blog Image
-                    </label>
-
-                    <input
-                        type="file"
-                        id="blogImage"
-                        accept="image/*"
-                        class="w-full px-4 py-3
-                               border border-gray-300
-                               rounded-lg
-                               bg-white
-                               text-gray-600
-                               cursor-pointer
-                               focus:outline-none
-                               focus:ring-2
-                               focus:ring-blue-500"
-                    >
-
-                    <p class="text-xs text-gray-400 mt-2">
-                        Select an image for your blog.
-                    </p>
-
-
-                    <!-- Image Preview -->
-
-                    <div
-                        id="imagePreviewContainer"
-                        class="hidden mt-5"
-                    >
-
-                        <p
-                            class="text-sm font-medium
-                                   text-gray-700 mb-2"
+                        <select
+                            id="blogCategory"
+                            required
+                            class="appearance-none
+                                   w-full
+                                   px-4 py-3.5
+                                   pr-12
+                                   rounded-xl
+                                   border border-slate-200
+                                   bg-slate-50
+                                   text-slate-700
+                                   outline-none
+                                   cursor-pointer
+                                   transition-all
+                                   focus:bg-white
+                                   focus:border-indigo-500
+                                   focus:ring-4
+                                   focus:ring-indigo-500/10"
                         >
-                            Image Preview
-                        </p>
 
-                        <img
-                            id="imagePreview"
-                            src=""
-                            alt="Blog image preview"
-                            class="w-full max-w-lg
-                                   h-64 object-cover
-                                   rounded-xl border
-                                   border-gray-200
-                                   shadow-sm"
+                            <option value="">
+                                Select a category
+                            </option>
+
+                            <option value="Technology">
+                                Technology
+                            </option>
+
+                            <option value="Web Development">
+                                Web Development
+                            </option>
+
+                            <option value="Programming">
+                                Programming
+                            </option>
+
+                            <option value="Education">
+                                Education
+                            </option>
+
+                            <option value="Lifestyle">
+                                Lifestyle
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+
+                        <span
+                            class="absolute
+                                   right-4
+                                   top-1/2
+                                   -translate-y-1/2
+                                   text-slate-400
+                                   pointer-events-none"
                         >
+                            ▼
+                        </span>
 
                     </div>
 
                 </div>
 
 
-                <!-- Error -->
 
-                <p
-                    id="blogError"
-                    class="text-red-500 text-sm
-                           mb-5 min-h-[20px]"
-                ></p>
+                <!-- =================================================
+                     CONTENT
+                ================================================== -->
+
+                <div class="mb-7">
+
+                    <div
+                        class="flex
+                               items-center
+                               justify-between
+                               mb-2"
+                    >
+
+                        <label
+                            for="blogContent"
+                            class="text-sm
+                                   font-bold
+                                   text-slate-700"
+                        >
+                            Blog Content
+                        </label>
 
 
-                <!-- Buttons -->
+                        <span
+                            id="wordCount"
+                            class="text-xs
+                                   text-slate-400"
+                        >
+                            0 words
+                        </span>
+
+                    </div>
+
+
+                    <textarea
+                        id="blogContent"
+                        rows="14"
+                        placeholder="Start writing your story here..."
+                        required
+                        class="w-full
+                               px-4 py-4
+                               rounded-xl
+                               border border-slate-200
+                               bg-slate-50
+                               text-slate-900
+                               placeholder-slate-400
+                               resize-y
+                               leading-7
+                               outline-none
+                               transition-all
+                               focus:bg-white
+                               focus:border-indigo-500
+                               focus:ring-4
+                               focus:ring-indigo-500/10"
+                    ></textarea>
+
+
+                    <div
+                        class="flex
+                               items-center
+                               gap-2
+                               mt-2
+                               text-xs
+                               text-slate-400"
+                    >
+
+                        <span>💡</span>
+
+                        <span>
+                            Write useful and engaging content for your readers.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     IMAGE
+                ================================================== -->
+
+                <div class="mb-7">
+
+                    <label
+                        for="blogImage"
+                        class="block
+                               text-sm
+                               font-bold
+                               text-slate-700
+                               mb-2"
+                    >
+                        Cover Image
+                    </label>
+
+
+                    <label
+                        for="blogImage"
+                        class="group
+                               relative
+                               flex flex-col
+                               items-center
+                               justify-center
+                               min-h-48
+                               w-full
+                               px-6 py-8
+                               rounded-2xl
+                               border-2
+                               border-dashed
+                               border-slate-300
+                               bg-slate-50
+                               cursor-pointer
+                               hover:bg-indigo-50
+                               hover:border-indigo-400
+                               transition-all"
+                    >
+
+                        <div
+                            class="w-14 h-14
+                                   rounded-2xl
+                                   bg-indigo-100
+                                   flex items-center
+                                   justify-center
+                                   mb-4
+                                   group-hover:scale-110
+                                   group-hover:bg-indigo-200
+                                   transition-all"
+                        >
+
+                            <svg
+                                class="w-7 h-7
+                                       text-indigo-600"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.8"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16"
+                                />
+
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.8"
+                                    d="M14 14l1.586-1.586a2 2 0 012.828 0L20 14"
+                                />
+
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.8"
+                                    d="M14 8h.01"
+                                />
+
+                                <rect
+                                    width="18"
+                                    height="18"
+                                    x="3"
+                                    y="3"
+                                    rx="2"
+                                    stroke-width="1.8"
+                                />
+
+                            </svg>
+
+                        </div>
+
+
+                        <p
+                            class="text-sm
+                                   font-semibold
+                                   text-slate-700"
+                        >
+                            Click to upload your cover image
+                        </p>
+
+
+                        <p
+                            class="text-xs
+                                   text-slate-400
+                                   mt-2"
+                        >
+                            PNG, JPG, JPEG or WEBP
+                        </p>
+
+
+                        <input
+                            type="file"
+                            id="blogImage"
+                            accept="image/*"
+                            class="hidden"
+                        >
+
+                    </label>
+
+
+
+                    <!-- Image Preview -->
+
+                    <div
+                        id="imagePreviewContainer"
+                        class="hidden mt-6"
+                    >
+
+                        <div
+                            class="flex
+                                   items-center
+                                   justify-between
+                                   mb-3"
+                        >
+
+                            <p
+                                class="text-sm
+                                       font-semibold
+                                       text-slate-700"
+                            >
+                                Image Preview
+                            </p>
+
+
+                            <span
+                                class="text-xs
+                                       text-emerald-600
+                                       font-medium"
+                            >
+                                ✓ Selected
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="overflow-hidden
+                                   rounded-2xl
+                                   border border-slate-200
+                                   bg-slate-100"
+                        >
+
+                            <img
+                                id="imagePreview"
+                                src=""
+                                alt="Blog image preview"
+                                class="w-full
+                                       max-h-[420px]
+                                       object-cover"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ERROR
+                ================================================== -->
 
                 <div
-                    class="flex flex-col sm:flex-row
-                           gap-3"
+                    id="blogError"
+                    class="text-red-600
+                           bg-red-50
+                           border border-red-100
+                           rounded-xl
+                           px-4 py-3
+                           text-sm
+                           mb-6
+                           min-h-[20px]"
+                ></div>
+
+
+
+                <!-- =================================================
+                     ACTIONS
+                ================================================== -->
+
+                <div
+                    class="flex flex-col
+                           sm:flex-row
+                           gap-3
+                           pt-3
+                           border-t
+                           border-slate-100"
                 >
+
+                    <!-- Publish -->
 
                     <button
                         type="submit"
                         id="blogSubmitButton"
-                        class="flex-1 bg-blue-600
-                               text-white py-3 px-6
-                               rounded-lg
-                               font-semibold
-                               hover:bg-blue-700
+                        class="group
+                               flex-1
+                               inline-flex
+                               items-center
+                               justify-center
+                               gap-2
+                               px-6 py-3.5
+                               rounded-xl
+                               bg-slate-900
+                               text-white
+                               font-bold
+                               shadow-lg
+                               shadow-slate-900/15
+                               hover:bg-indigo-600
+                               hover:shadow-indigo-600/20
                                hover:-translate-y-0.5
-                               transition shadow-md"
+                               active:translate-y-0
+                               transition-all"
                     >
+
+                        <span>
+                            🚀
+                        </span>
+
                         Publish Blog
+
+                        <span
+                            class="text-lg
+                                   transition-transform
+                                   group-hover:translate-x-1"
+                        >
+                            →
+                        </span>
+
                     </button>
+
+
+                    <!-- Cancel -->
 
                     <a
                         href="dashboard.html"
-                        class="flex-1 text-center
-                               bg-gray-100
-                               text-gray-700
-                               py-3 px-6
-                               rounded-lg
+                        class="sm:w-40
+                               inline-flex
+                               items-center
+                               justify-center
+                               gap-2
+                               px-6 py-3.5
+                               rounded-xl
+                               bg-slate-100
+                               text-slate-700
                                font-semibold
-                               hover:bg-gray-200
-                               transition"
+                               hover:bg-slate-200
+                               transition-all"
                     >
-                        Cancel
+
+                        ← Cancel
+
                     </a>
 
                 </div>
@@ -342,26 +897,182 @@
     </main>
 
 
-    <!-- Footer -->
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
 
     <footer
-        class="bg-gray-900
-               text-gray-300 mt-10"
+        class="mt-10
+               bg-slate-950
+               text-slate-400"
     >
 
         <div
             class="max-w-7xl mx-auto
-                   px-6 py-6 text-center"
+                   px-6 lg:px-8
+                   py-10"
         >
 
-            <p>
-                &copy; 2026 My Blog.
-                All rights reserved.
-            </p>
+            <div
+                class="flex flex-col
+                       sm:flex-row
+                       items-center
+                       justify-between
+                       gap-4"
+            >
+
+                <div
+                    class="flex
+                           items-center
+                           gap-3"
+                >
+
+                    <div
+                        class="w-9 h-9
+                               rounded-lg
+                               bg-indigo-600
+                               flex items-center
+                               justify-center"
+                    >
+
+                        <span
+                            class="text-white
+                                   font-black"
+                        >
+                            M
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <p
+                            class="font-bold
+                                   text-white"
+                        >
+                            My Blog
+                        </p>
+
+                        <p
+                            class="text-xs
+                                   text-slate-500"
+                        >
+                            Read. Write. Inspire.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <p class="text-sm">
+                    © 2026 My Blog. All rights reserved.
+                </p>
+
+            </div>
 
         </div>
 
     </footer>
+
+
+
+    <!-- =====================================================
+         SMALL UI ENHANCEMENTS
+    ====================================================== -->
+
+    <script>
+
+        /* Word Counter */
+
+        const content =
+            document.getElementById("blogContent");
+
+        const wordCount =
+            document.getElementById("wordCount");
+
+
+        if (content && wordCount) {
+
+            content.addEventListener("input", function () {
+
+                const text =
+                    this.value.trim();
+
+                const words =
+                    text
+                        ? text.split(/\s+/).length
+                        : 0;
+
+                wordCount.textContent =
+                    `${words} ${words === 1 ? "word" : "words"}`;
+
+            });
+
+        }
+
+
+
+        /* Image Preview */
+
+        const imageInput =
+            document.getElementById("blogImage");
+
+        const previewContainer =
+            document.getElementById("imagePreviewContainer");
+
+        const preview =
+            document.getElementById("imagePreview");
+
+
+        if (imageInput) {
+
+            imageInput.addEventListener("change", function () {
+
+                const file = this.files[0];
+
+                if (!file) {
+
+                    previewContainer.classList.add("hidden");
+
+                    preview.src = "";
+
+                    return;
+                }
+
+
+                if (!file.type.startsWith("image/")) {
+
+                    previewContainer.classList.add("hidden");
+
+                    return;
+                }
+
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload = function (event) {
+
+                    preview.src =
+                        event.target.result;
+
+                    previewContainer.classList.remove("hidden");
+
+                };
+
+
+                reader.readAsDataURL(file);
+
+            });
+
+        }
+
+    </script>
+
 
 
     <!-- Existing JavaScript -->
@@ -371,4 +1082,3 @@
 </body>
 
 </html>
-
