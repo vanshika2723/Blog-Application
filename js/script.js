@@ -1,5 +1,11 @@
 // ============================================================
 // MY BLOG APPLICATION - COMPLETE JAVASCRIPT
+// MONGODB + AUTH + BLOG CRUD + SEARCH + CATEGORY FILTER
+// ============================================================
+
+
+// ============================================================
+// API CONFIGURATION
 // ============================================================
 
 const API_URL = "http://localhost:5000/api";
@@ -10,24 +16,36 @@ const API_URL = "http://localhost:5000/api";
 // ============================================================
 
 function getLoggedInUser() {
+
     try {
-        return JSON.parse(localStorage.getItem("loggedInUser"));
+
+        return JSON.parse(
+            localStorage.getItem("loggedInUser")
+        );
+
     } catch (error) {
+
         return null;
+
     }
+
 }
 
 
 function saveLoggedInUser(user) {
+
     localStorage.setItem(
         "loggedInUser",
         JSON.stringify(user)
     );
+
 }
 
 
 function redirectToLogin() {
+
     window.location.href = "login.html";
+
 }
 
 
@@ -35,111 +53,180 @@ function redirectToLogin() {
 // REGISTER
 // ============================================================
 
-const registerForm = document.getElementById("registerForm");
+const registerForm =
+    document.getElementById("registerForm");
+
 
 if (registerForm) {
 
-    registerForm.addEventListener("submit", async function (event) {
+    registerForm.addEventListener(
+        "submit",
+        async function (event) {
 
-        event.preventDefault();
-
-        const name =
-            document.getElementById("name").value.trim();
-
-        const email =
-            document.getElementById("registerEmail").value.trim();
-
-        const password =
-            document.getElementById("registerPassword").value;
-
-        const confirmPassword =
-            document.getElementById("confirmPassword").value;
-
-        const registerError =
-            document.getElementById("registerError");
-
-        registerError.textContent = "";
+            event.preventDefault();
 
 
-        // Validation
-        if (!name || !email || !password || !confirmPassword) {
-
-            registerError.textContent =
-                "Please fill all fields.";
-
-            return;
-        }
+            const name =
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
 
 
-        if (password.length < 6) {
-
-            registerError.textContent =
-                "Password must be at least 6 characters.";
-
-            return;
-        }
+            const email =
+                document
+                    .getElementById("registerEmail")
+                    .value
+                    .trim();
 
 
-        if (password !== confirmPassword) {
-
-            registerError.textContent =
-                "Passwords do not match.";
-
-            return;
-        }
+            const password =
+                document
+                    .getElementById("registerPassword")
+                    .value;
 
 
-        try {
-
-            const response = await fetch(
-                `${API_URL}/auth/register`,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        name,
-                        email,
-                        password
-                    })
-                }
-            );
+            const confirmPassword =
+                document
+                    .getElementById("confirmPassword")
+                    .value;
 
 
-            const data = await response.json();
+            const registerError =
+                document.getElementById(
+                    "registerError"
+                );
 
 
-            if (!response.ok) {
+            if (registerError) {
 
-                registerError.textContent =
-                    data.message ||
-                    "Registration failed.";
+                registerError.textContent = "";
 
-                return;
             }
 
 
-            alert("Registration successful!");
+            // Validation
 
-            window.location.href = "login.html";
+            if (
+                !name ||
+                !email ||
+                !password ||
+                !confirmPassword
+            ) {
+
+                if (registerError) {
+
+                    registerError.textContent =
+                        "Please fill all fields.";
+
+                }
+
+                return;
+
+            }
 
 
-        } catch (error) {
+            if (password.length < 6) {
 
-            console.error(
-                "Register Error:",
-                error
-            );
+                if (registerError) {
 
-            registerError.textContent =
-                "Unable to connect to server.";
+                    registerError.textContent =
+                        "Password must be at least 6 characters.";
+
+                }
+
+                return;
+
+            }
+
+
+            if (password !== confirmPassword) {
+
+                if (registerError) {
+
+                    registerError.textContent =
+                        "Passwords do not match.";
+
+                }
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/auth/register`,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    name,
+                                    email,
+                                    password
+                                })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    if (registerError) {
+
+                        registerError.textContent =
+                            data.message ||
+                            "Registration failed.";
+
+                    }
+
+                    return;
+
+                }
+
+
+                alert(
+                    "Registration successful!"
+                );
+
+
+                window.location.href =
+                    "login.html";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Register Error:",
+                    error
+                );
+
+
+                if (registerError) {
+
+                    registerError.textContent =
+                        "Unable to connect to server.";
+
+                }
+
+            }
 
         }
+    );
 
-    });
 }
 
 
@@ -147,90 +234,135 @@ if (registerForm) {
 // LOGIN
 // ============================================================
 
-const loginForm = document.getElementById("loginForm");
+const loginForm =
+    document.getElementById("loginForm");
+
 
 if (loginForm) {
 
-    loginForm.addEventListener("submit", async function (event) {
+    loginForm.addEventListener(
+        "submit",
+        async function (event) {
 
-        event.preventDefault();
-
-
-        const email =
-            document.getElementById("email").value.trim();
-
-        const password =
-            document.getElementById("password").value;
-
-        const loginError =
-            document.getElementById("loginError");
-
-        loginError.textContent = "";
+            event.preventDefault();
 
 
-        if (!email || !password) {
-
-            loginError.textContent =
-                "Please enter email and password.";
-
-            return;
-        }
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
 
 
-        try {
-
-            const response = await fetch(
-                `${API_URL}/auth/login`,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        email,
-                        password
-                    })
-                }
-            );
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
 
 
-            const data = await response.json();
+            const loginError =
+                document.getElementById(
+                    "loginError"
+                );
 
 
-            if (!response.ok) {
+            if (loginError) {
 
-                loginError.textContent =
-                    data.message ||
-                    "Invalid email or password.";
+                loginError.textContent = "";
 
-                return;
             }
 
 
-            // Save user
-            saveLoggedInUser(data.user);
+            if (!email || !password) {
+
+                if (loginError) {
+
+                    loginError.textContent =
+                        "Please enter email and password.";
+
+                }
+
+                return;
+
+            }
 
 
-            // Dashboard
-            window.location.href =
-                "dashboard.html";
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/auth/login`,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    email,
+                                    password
+                                })
+
+                        }
+                    );
 
 
-        } catch (error) {
+                const data =
+                    await response.json();
 
-            console.error(
-                "Login Error:",
-                error
-            );
 
-            loginError.textContent =
-                "Unable to connect to server.";
+                if (!response.ok) {
+
+                    if (loginError) {
+
+                        loginError.textContent =
+                            data.message ||
+                            "Invalid email or password.";
+
+                    }
+
+                    return;
+
+                }
+
+
+                // Save logged in user
+
+                saveLoggedInUser(
+                    data.user
+                );
+
+
+                // Redirect to dashboard
+
+                window.location.href =
+                    "dashboard.html";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Login Error:",
+                    error
+                );
+
+
+                if (loginError) {
+
+                    loginError.textContent =
+                        "Unable to connect to server.";
+
+                }
+
+            }
 
         }
+    );
 
-    });
 }
 
 
@@ -239,7 +371,9 @@ if (loginForm) {
 // ============================================================
 
 const welcomeMessage =
-    document.getElementById("welcomeMessage");
+    document.getElementById(
+        "welcomeMessage"
+    );
 
 
 if (welcomeMessage) {
@@ -258,6 +392,7 @@ if (welcomeMessage) {
             `Welcome back, ${loggedInUser.name}!`;
 
     }
+
 }
 
 
@@ -266,7 +401,9 @@ if (welcomeMessage) {
 // ============================================================
 
 const logoutBtn =
-    document.getElementById("logoutBtn");
+    document.getElementById(
+        "logoutBtn"
+    );
 
 
 if (logoutBtn) {
@@ -277,9 +414,11 @@ if (logoutBtn) {
 
             event.preventDefault();
 
+
             localStorage.removeItem(
                 "loggedInUser"
             );
+
 
             window.location.href =
                 "login.html";
@@ -295,7 +434,9 @@ if (logoutBtn) {
 // ============================================================
 
 const blogForm =
-    document.getElementById("blogForm");
+    document.getElementById(
+        "blogForm"
+    );
 
 
 if (blogForm) {
@@ -321,6 +462,7 @@ if (blogForm) {
 
 
     // User must login
+
     if (!loggedInUser) {
 
         redirectToLogin();
@@ -338,15 +480,19 @@ if (blogForm) {
 
                 blogSubmitButton.innerHTML =
                     `<span>✏️</span> Update Blog`;
+
             }
 
 
-            loadBlogForEdit(editBlogId);
+            loadBlogForEdit(
+                editBlogId
+            );
+
         }
 
 
         // ====================================================
-        // SUBMIT
+        // SUBMIT BLOG
         // ====================================================
 
         blogForm.addEventListener(
@@ -358,20 +504,26 @@ if (blogForm) {
 
                 const title =
                     document
-                        .getElementById("blogTitle")
+                        .getElementById(
+                            "blogTitle"
+                        )
                         .value
                         .trim();
 
 
                 const category =
                     document
-                        .getElementById("blogCategory")
+                        .getElementById(
+                            "blogCategory"
+                        )
                         .value;
 
 
                 const content =
                     document
-                        .getElementById("blogContent")
+                        .getElementById(
+                            "blogContent"
+                        )
                         .value
                         .trim();
 
@@ -382,30 +534,42 @@ if (blogForm) {
                     );
 
 
-                blogError.textContent = "";
+                if (blogError) {
+
+                    blogError.textContent = "";
+
+                }
 
 
                 // Validation
+
                 if (
                     !title ||
                     !category ||
                     !content
                 ) {
 
-                    blogError.textContent =
-                        "Please fill all required fields.";
+                    if (blogError) {
+
+                        blogError.textContent =
+                            "Please fill all required fields.";
+
+                    }
 
                     return;
+
                 }
 
 
                 try {
+
 
                     // =================================================
                     // IMAGE
                     // =================================================
 
                     let image = null;
+
 
                     const imageInput =
                         document.getElementById(
@@ -428,7 +592,7 @@ if (blogForm) {
 
 
                     // =================================================
-                    // CREATE
+                    // CREATE BLOG
                     // =================================================
 
                     if (!editBlogId) {
@@ -437,6 +601,7 @@ if (blogForm) {
                             await fetch(
                                 `${API_URL}/blogs`,
                                 {
+
                                     method: "POST",
 
                                     headers: {
@@ -448,7 +613,9 @@ if (blogForm) {
                                         JSON.stringify({
 
                                             title,
+
                                             category,
+
                                             content,
 
                                             author:
@@ -460,6 +627,7 @@ if (blogForm) {
                                             image
 
                                         })
+
                                 }
                             );
 
@@ -470,11 +638,16 @@ if (blogForm) {
 
                         if (!response.ok) {
 
-                            blogError.textContent =
-                                data.message ||
-                                "Unable to create blog.";
+                            if (blogError) {
+
+                                blogError.textContent =
+                                    data.message ||
+                                    "Unable to create blog.";
+
+                            }
 
                             return;
+
                         }
 
 
@@ -486,19 +659,24 @@ if (blogForm) {
                         window.location.href =
                             "dashboard.html";
 
+
                     }
 
 
                     // =================================================
-                    // UPDATE
+                    // UPDATE BLOG
                     // =================================================
 
                     else {
 
                         const updateData = {
+
                             title,
+
                             category,
+
                             content
+
                         };
 
 
@@ -506,6 +684,7 @@ if (blogForm) {
 
                             updateData.image =
                                 image;
+
                         }
 
 
@@ -513,6 +692,7 @@ if (blogForm) {
                             await fetch(
                                 `${API_URL}/blogs/${editBlogId}`,
                                 {
+
                                     method: "PUT",
 
                                     headers: {
@@ -524,6 +704,7 @@ if (blogForm) {
                                         JSON.stringify(
                                             updateData
                                         )
+
                                 }
                             );
 
@@ -534,11 +715,16 @@ if (blogForm) {
 
                         if (!response.ok) {
 
-                            blogError.textContent =
-                                data.message ||
-                                "Unable to update blog.";
+                            if (blogError) {
+
+                                blogError.textContent =
+                                    data.message ||
+                                    "Unable to update blog.";
+
+                            }
 
                             return;
+
                         }
 
 
@@ -561,8 +747,12 @@ if (blogForm) {
                     );
 
 
-                    blogError.textContent =
-                        "Unable to connect to server.";
+                    if (blogError) {
+
+                        blogError.textContent =
+                            "Unable to connect to server.";
+
+                    }
 
                 }
 
@@ -570,6 +760,7 @@ if (blogForm) {
         );
 
     }
+
 }
 
 
@@ -598,10 +789,13 @@ async function loadBlogForEdit(blogId) {
                 "Blog not found."
             );
 
+
             window.location.href =
                 "dashboard.html";
 
+
             return;
+
         }
 
 
@@ -609,25 +803,50 @@ async function loadBlogForEdit(blogId) {
             data.blog;
 
 
-        document.getElementById(
-            "blogTitle"
-        ).value =
-            blog.title || "";
+        const titleInput =
+            document.getElementById(
+                "blogTitle"
+            );
 
 
-        document.getElementById(
-            "blogCategory"
-        ).value =
-            blog.category || "";
+        const categoryInput =
+            document.getElementById(
+                "blogCategory"
+            );
 
 
-        document.getElementById(
-            "blogContent"
-        ).value =
-            blog.content || "";
+        const contentInput =
+            document.getElementById(
+                "blogContent"
+            );
+
+
+        if (titleInput) {
+
+            titleInput.value =
+                blog.title || "";
+
+        }
+
+
+        if (categoryInput) {
+
+            categoryInput.value =
+                blog.category || "";
+
+        }
+
+
+        if (contentInput) {
+
+            contentInput.value =
+                blog.content || "";
+
+        }
 
 
         // Existing image preview
+
         if (blog.image) {
 
             const preview =
@@ -635,24 +854,32 @@ async function loadBlogForEdit(blogId) {
                     "imagePreview"
                 );
 
+
             const container =
                 document.getElementById(
                     "imagePreviewContainer"
                 );
 
 
-            if (preview && container) {
+            if (
+                preview &&
+                container
+            ) {
 
                 preview.src =
                     blog.image;
+
 
                 container.classList.remove(
                     "hidden"
                 );
 
+
                 container.style.display =
                     "block";
+
             }
+
         }
 
 
@@ -664,6 +891,7 @@ async function loadBlogForEdit(blogId) {
         );
 
     }
+
 }
 
 
@@ -695,13 +923,14 @@ async function loadDashboardBlogs() {
         redirectToLogin();
 
         return;
+
     }
 
 
     try {
 
         // ====================================================
-        // GET BLOGS FROM MONGODB
+        // GET BLOGS
         // ====================================================
 
         const response =
@@ -720,6 +949,7 @@ async function loadDashboardBlogs() {
                 data.message ||
                 "Unable to load blogs."
             );
+
         }
 
 
@@ -732,14 +962,16 @@ async function loadDashboardBlogs() {
         // ====================================================
 
         const userBlogs =
-            blogs.filter(function (blog) {
+            blogs.filter(
+                function (blog) {
 
-                return (
-                    blog.authorEmail ===
-                    loggedInUser.email
-                );
+                    return (
+                        blog.authorEmail ===
+                        loggedInUser.email
+                    );
 
-            });
+                }
+            );
 
 
         // ====================================================
@@ -768,6 +1000,7 @@ async function loadDashboardBlogs() {
 
             totalBlogs.textContent =
                 userBlogs.length;
+
         }
 
 
@@ -780,6 +1013,7 @@ async function loadDashboardBlogs() {
                         "published" ||
                         !blog.status
                 ).length;
+
         }
 
 
@@ -791,6 +1025,7 @@ async function loadDashboardBlogs() {
                         blog.status ===
                         "draft"
                 ).length;
+
         }
 
 
@@ -875,237 +1110,255 @@ async function loadDashboardBlogs() {
             `;
 
             return;
+
         }
 
 
         // ====================================================
-        // DISPLAY BLOGS
+        // DISPLAY USER BLOGS
         // ====================================================
 
         dashboardBlogList.innerHTML = "";
 
 
-        userBlogs.forEach(function (blog) {
+        userBlogs.forEach(
+            function (blog) {
 
-            const blogElement =
-                document.createElement(
-                    "article"
-                );
-
-
-            blogElement.className =
-                "group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300";
+                const blogElement =
+                    document.createElement(
+                        "article"
+                    );
 
 
-            const blogId =
-                blog._id || blog.id;
+                blogElement.className =
+                    "group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300";
 
 
-            blogElement.innerHTML = `
+                const blogId =
+                    blog._id ||
+                    blog.id;
 
-                ${
-                    blog.image
-                        ? `
-                            <div class="h-52 overflow-hidden">
 
-                                <img
-                                    src="${blog.image}"
-                                    alt="${escapeHTML(blog.title)}"
-                                    class="w-full h-full object-cover
-                                           group-hover:scale-105
-                                           transition-transform
-                                           duration-500"
+                blogElement.innerHTML = `
+
+                    ${
+                        blog.image
+                            ?
+
+                            `
+                                <div class="h-52 overflow-hidden">
+
+                                    <img
+                                        src="${blog.image}"
+                                        alt="${escapeHTML(blog.title)}"
+                                        class="w-full h-full object-cover
+                                               group-hover:scale-105
+                                               transition-transform
+                                               duration-500"
+                                    >
+
+                                </div>
+                            `
+
+                            :
+
+                            `
+                                <div
+                                    class="h-52
+                                           bg-gradient-to-br
+                                           from-blue-500
+                                           via-indigo-500
+                                           to-purple-600
+                                           flex
+                                           items-center
+                                           justify-center"
                                 >
 
-                            </div>
-                          `
-                        : `
-                            <div
-                                class="h-52
-                                       bg-gradient-to-br
-                                       from-blue-500
-                                       via-indigo-500
-                                       to-purple-600
-                                       flex
-                                       items-center
-                                       justify-center"
+                                    <span class="text-6xl">
+                                        📝
+                                    </span>
+
+                                </div>
+                            `
+                    }
+
+
+                    <div class="p-6">
+
+                        <div
+                            class="flex
+                                   items-center
+                                   justify-between
+                                   gap-3
+                                   mb-4"
+                        >
+
+                            <span
+                                class="inline-flex
+                                       px-3 py-1
+                                       rounded-full
+                                       bg-blue-50
+                                       text-blue-600
+                                       text-xs
+                                       font-bold"
+                            >
+                                ${escapeHTML(
+                                    blog.category ||
+                                    "General"
+                                )}
+                            </span>
+
+
+                            <span
+                                class="
+                                    ${
+                                        blog.status === "draft"
+                                            ? "bg-orange-50 text-orange-600"
+                                            : "bg-green-50 text-green-600"
+                                    }
+
+                                    px-3 py-1
+                                    rounded-full
+                                    text-xs
+                                    font-semibold
+                                "
                             >
 
-                                <span class="text-6xl">
-                                    📝
-                                </span>
-
-                            </div>
-                          `
-                }
-
-
-                <div class="p-6">
-
-                    <div
-                        class="flex
-                               items-center
-                               justify-between
-                               gap-3
-                               mb-4"
-                    >
-
-                        <span
-                            class="inline-flex
-                                   px-3 py-1
-                                   rounded-full
-                                   bg-blue-50
-                                   text-blue-600
-                                   text-xs
-                                   font-bold"
-                        >
-                            ${escapeHTML(
-                                blog.category ||
-                                "General"
-                            )}
-                        </span>
-
-
-                        <span
-                            class="
                                 ${
                                     blog.status === "draft"
-                                        ? "bg-orange-50 text-orange-600"
-                                        : "bg-green-50 text-green-600"
+                                        ? "Draft"
+                                        : "Published"
                                 }
-                                px-3 py-1
-                                rounded-full
-                                text-xs
-                                font-semibold
-                            "
+
+                            </span>
+
+                        </div>
+
+
+                        <h3
+                            class="text-xl
+                                   font-bold
+                                   text-gray-900
+                                   mb-3
+                                   line-clamp-2
+                                   group-hover:text-blue-600
+                                   transition-colors"
                         >
+                            ${escapeHTML(
+                                blog.title
+                            )}
+                        </h3>
+
+
+                        <p
+                            class="text-gray-500
+                                   text-sm
+                                   leading-6
+                                   line-clamp-3
+                                   mb-5"
+                        >
+                            ${escapeHTML(
+                                (
+                                    blog.content ||
+                                    ""
+                                ).substring(
+                                    0,
+                                    150
+                                )
+                            )}
+
                             ${
-                                blog.status === "draft"
-                                    ? "Draft"
-                                    : "Published"
+                                (
+                                    blog.content ||
+                                    ""
+                                ).length > 150
+                                    ? "..."
+                                    : ""
                             }
-                        </span>
-
-                    </div>
+                        </p>
 
 
-                    <h3
-                        class="text-xl
-                               font-bold
-                               text-gray-900
-                               mb-3
-                               line-clamp-2
-                               group-hover:text-blue-600
-                               transition-colors"
-                    >
-                        ${escapeHTML(
-                            blog.title
-                        )}
-                    </h3>
-
-
-                    <p
-                        class="text-gray-500
-                               text-sm
-                               leading-6
-                               line-clamp-3
-                               mb-5"
-                    >
-                        ${escapeHTML(
-                            (blog.content || "")
-                                .substring(0, 150)
-                        )}
-
-                        ${
-                            (blog.content || "").length > 150
-                                ? "..."
-                                : ""
-                        }
-                    </p>
-
-
-                    <div
-                        class="text-xs
-                               text-gray-400
-                               mb-5"
-                    >
-                        ${
-                            formatDate(
+                        <div
+                            class="text-xs
+                                   text-gray-400
+                                   mb-5"
+                        >
+                            ${formatDate(
                                 blog.createdAt
-                            )
-                        }
+                            )}
+                        </div>
+
+
+                        <div
+                            class="flex
+                                   gap-3
+                                   pt-4
+                                   border-t
+                                   border-gray-100"
+                        >
+
+                            <a
+                                href="blog.html?id=${blogId}"
+                                class="flex-1
+                                       text-center
+                                       bg-gray-100
+                                       text-gray-700
+                                       px-4 py-2.5
+                                       rounded-lg
+                                       font-semibold
+                                       text-sm
+                                       hover:bg-gray-200
+                                       transition"
+                            >
+                                View
+                            </a>
+
+
+                            <a
+                                href="create-blog.html?edit=${blogId}"
+                                class="flex-1
+                                       text-center
+                                       bg-blue-600
+                                       text-white
+                                       px-4 py-2.5
+                                       rounded-lg
+                                       font-semibold
+                                       text-sm
+                                       hover:bg-blue-700
+                                       transition"
+                            >
+                                Edit
+                            </a>
+
+
+                            <button
+                                class="delete-blog-btn
+                                       bg-red-50
+                                       text-red-600
+                                       px-4 py-2.5
+                                       rounded-lg
+                                       font-semibold
+                                       text-sm
+                                       hover:bg-red-100
+                                       transition"
+                                data-id="${blogId}"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
                     </div>
 
-
-                    <div
-                        class="flex
-                               gap-3
-                               pt-4
-                               border-t
-                               border-gray-100"
-                    >
-
-                        <a
-                            href="blog.html?id=${blogId}"
-                            class="flex-1
-                                   text-center
-                                   bg-gray-100
-                                   text-gray-700
-                                   px-4 py-2.5
-                                   rounded-lg
-                                   font-semibold
-                                   text-sm
-                                   hover:bg-gray-200
-                                   transition"
-                        >
-                            View
-                        </a>
+                `;
 
 
-                        <a
-                            href="create-blog.html?edit=${blogId}"
-                            class="flex-1
-                                   text-center
-                                   bg-blue-600
-                                   text-white
-                                   px-4 py-2.5
-                                   rounded-lg
-                                   font-semibold
-                                   text-sm
-                                   hover:bg-blue-700
-                                   transition"
-                        >
-                            Edit
-                        </a>
+                dashboardBlogList.appendChild(
+                    blogElement
+                );
 
-
-                        <button
-                            class="delete-blog-btn
-                                   bg-red-50
-                                   text-red-600
-                                   px-4 py-2.5
-                                   rounded-lg
-                                   font-semibold
-                                   text-sm
-                                   hover:bg-red-100
-                                   transition"
-                            data-id="${blogId}"
-                        >
-                            Delete
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
-
-
-            dashboardBlogList.appendChild(
-                blogElement
-            );
-
-        });
+            }
+        );
 
 
     } catch (error) {
@@ -1169,11 +1422,12 @@ async function loadDashboardBlogs() {
         `;
 
     }
+
 }
 
 
 // ============================================================
-// DELETE BLOG FROM MONGODB
+// DELETE BLOG
 // ============================================================
 
 document.addEventListener(
@@ -1187,7 +1441,9 @@ document.addEventListener(
 
 
         if (!button) {
+
             return;
+
         }
 
 
@@ -1197,9 +1453,12 @@ document.addEventListener(
 
         if (!blogId) {
 
-            alert("Blog ID missing.");
+            alert(
+                "Blog ID missing."
+            );
 
             return;
+
         }
 
 
@@ -1210,13 +1469,16 @@ document.addEventListener(
 
 
         if (!confirmDelete) {
+
             return;
+
         }
 
 
         try {
 
             button.disabled = true;
+
 
             button.textContent =
                 "Deleting...";
@@ -1241,6 +1503,7 @@ document.addEventListener(
                     data.message ||
                     "Unable to delete blog."
                 );
+
             }
 
 
@@ -1249,7 +1512,6 @@ document.addEventListener(
             );
 
 
-            // Reload dashboard
             loadDashboardBlogs();
 
 
@@ -1269,8 +1531,10 @@ document.addEventListener(
 
             button.disabled = false;
 
+
             button.textContent =
                 "Delete";
+
         }
 
     }
@@ -1278,7 +1542,8 @@ document.addEventListener(
 
 
 // ============================================================
-// HOME PAGE - LOAD BLOGS
+// HOME PAGE
+// MONGODB + SEARCH + CATEGORY FILTER
 // ============================================================
 
 const homeBlogContainer =
@@ -1287,6 +1552,25 @@ const homeBlogContainer =
     );
 
 
+const blogSearch =
+    document.getElementById(
+        "blogSearch"
+    );
+
+
+const blogCategoryFilter =
+    document.getElementById(
+        "blogCategoryFilter"
+    );
+
+
+let allHomeBlogs = [];
+
+
+// ============================================================
+// LOAD HOME BLOGS
+// ============================================================
+
 if (homeBlogContainer) {
 
     loadHomeBlogs();
@@ -1294,9 +1578,44 @@ if (homeBlogContainer) {
 }
 
 
+// ============================================================
+// LOAD BLOGS FROM MONGODB
+// ============================================================
+
 async function loadHomeBlogs() {
 
     try {
+
+        // Loading state
+
+        homeBlogContainer.innerHTML = `
+
+            <div
+                class="col-span-full
+                       py-16
+                       text-center"
+            >
+
+                <div
+                    class="w-14 h-14
+                           mx-auto
+                           mb-4
+                           border-4
+                           border-blue-200
+                           border-t-blue-600
+                           rounded-full
+                           animate-spin"
+                ></div>
+
+
+                <p class="text-slate-500 font-medium">
+                    Loading latest stories...
+                </p>
+
+            </div>
+
+        `;
+
 
         const response =
             await fetch(
@@ -1314,101 +1633,228 @@ async function loadHomeBlogs() {
                 data.message ||
                 "Unable to load blogs."
             );
+
         }
 
 
-        const blogs =
+        allHomeBlogs =
             data.blogs || [];
 
 
-        // ====================================================
-        // NO BLOGS
-        // ====================================================
+        // Display blogs
 
-        if (blogs.length === 0) {
+        displayHomeBlogs(
+            allHomeBlogs
+        );
 
-            homeBlogContainer.innerHTML = `
+
+    } catch (error) {
+
+        console.error(
+            "Home Blogs Error:",
+            error
+        );
+
+
+        homeBlogContainer.innerHTML = `
+
+            <div
+                class="col-span-full
+                       bg-white
+                       rounded-3xl
+                       border border-red-100
+                       shadow-sm
+                       p-12
+                       text-center"
+            >
+
+                <div class="text-5xl mb-4">
+                    🔌
+                </div>
+
+
+                <h3
+                    class="text-xl
+                           font-bold
+                           text-gray-900
+                           mb-2"
+                >
+                    Server connection failed
+                </h3>
+
+
+                <p
+                    class="text-gray-500
+                           mb-2"
+                >
+                    Please make sure the backend
+                    server is running on port 5000.
+                </p>
+
+
+                <p
+                    class="text-sm
+                           text-red-400
+                           mb-6"
+                >
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </p>
+
+
+                <button
+                    onclick="loadHomeBlogs()"
+                    class="bg-blue-600
+                           text-white
+                           px-6 py-3
+                           rounded-xl
+                           font-semibold
+                           hover:bg-blue-700
+                           transition"
+                >
+                    Try Again
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// ============================================================
+// DISPLAY HOME BLOGS
+// ============================================================
+
+function displayHomeBlogs(blogs) {
+
+    // No matching blogs
+
+    if (!blogs || blogs.length === 0) {
+
+        homeBlogContainer.innerHTML = `
+
+            <div
+                class="col-span-full
+                       bg-white
+                       rounded-3xl
+                       border border-gray-100
+                       shadow-sm
+                       p-12
+                       text-center"
+            >
 
                 <div
-                    class="col-span-full
-                           bg-white
-                           rounded-3xl
-                           border border-gray-100
-                           shadow-sm
-                           p-12
-                           text-center"
+                    class="w-20 h-20
+                           mx-auto
+                           mb-5
+                           rounded-2xl
+                           bg-blue-50
+                           flex
+                           items-center
+                           justify-center"
                 >
 
-                    <div
-                        class="w-20 h-20
-                               mx-auto
-                               mb-5
-                               rounded-2xl
-                               bg-blue-50
-                               flex
-                               items-center
-                               justify-center"
-                    >
-
-                        <span class="text-4xl">
-                            📝
-                        </span>
-
-                    </div>
-
-
-                    <h3
-                        class="text-2xl
-                               font-bold
-                               text-gray-900
-                               mb-2"
-                    >
-                        No blogs available
-                    </h3>
-
-
-                    <p
-                        class="text-gray-500
-                               mb-6"
-                    >
-                        Be the first person to
-                        publish a blog.
-                    </p>
-
-
-                    <a
-                        href="create-blog.html"
-                        class="inline-flex
-                               items-center
-                               gap-2
-                               bg-blue-600
-                               text-white
-                               px-6 py-3
-                               rounded-xl
-                               font-semibold
-                               hover:bg-blue-700
-                               transition"
-                    >
-                        Create Blog
-                        <span>→</span>
-                    </a>
+                    <span class="text-4xl">
+                        🔍
+                    </span>
 
                 </div>
 
-            `;
 
-            return;
+                <h3
+                    class="text-2xl
+                           font-bold
+                           text-gray-900
+                           mb-2"
+                >
+                    No blogs found
+                </h3>
+
+
+                <p
+                    class="text-gray-500
+                           mb-6"
+                >
+                    Try a different search or category.
+                </p>
+
+
+                <button
+                    id="clearBlogFilters"
+                    class="inline-flex
+                           items-center
+                           gap-2
+                           bg-blue-600
+                           text-white
+                           px-6 py-3
+                           rounded-xl
+                           font-semibold
+                           hover:bg-blue-700
+                           transition"
+                >
+                    Clear Filters
+                </button>
+
+            </div>
+
+        `;
+
+
+        const clearButton =
+            document.getElementById(
+                "clearBlogFilters"
+            );
+
+
+        if (clearButton) {
+
+            clearButton.addEventListener(
+                "click",
+                function () {
+
+                    if (blogSearch) {
+
+                        blogSearch.value = "";
+
+                    }
+
+
+                    if (blogCategoryFilter) {
+
+                        blogCategoryFilter.value =
+                            "all";
+
+                    }
+
+
+                    displayHomeBlogs(
+                        allHomeBlogs
+                    );
+
+                }
+            );
+
         }
 
 
-        // ====================================================
-        // DISPLAY
-        // ====================================================
+        return;
 
-        homeBlogContainer.innerHTML = "";
+    }
 
 
-        blogs.forEach(function (blog) {
+    // Clear existing blogs
+
+    homeBlogContainer.innerHTML = "";
+
+
+    // Create cards
+
+    blogs.forEach(
+        function (blog) {
 
             const blogCard =
                 document.createElement(
@@ -1417,7 +1863,8 @@ async function loadHomeBlogs() {
 
 
             const blogId =
-                blog._id || blog.id;
+                blog._id ||
+                blog.id;
 
 
             blogCard.className =
@@ -1428,21 +1875,34 @@ async function loadHomeBlogs() {
 
                 ${
                     blog.image
-                        ? `
-                            <div class="h-56 overflow-hidden">
+
+                        ?
+
+                        `
+                            <div
+                                class="h-56
+                                       overflow-hidden"
+                            >
 
                                 <img
                                     src="${blog.image}"
-                                    alt="${escapeHTML(blog.title)}"
-                                    class="w-full h-full object-cover
+                                    alt="${escapeHTML(
+                                        blog.title
+                                    )}"
+                                    class="w-full
+                                           h-full
+                                           object-cover
                                            group-hover:scale-105
                                            transition-transform
                                            duration-500"
                                 >
 
                             </div>
-                          `
-                        : `
+                        `
+
+                        :
+
+                        `
                             <div
                                 class="h-56
                                        bg-gradient-to-br
@@ -1454,16 +1914,21 @@ async function loadHomeBlogs() {
                                        justify-center"
                             >
 
-                                <span class="text-6xl">
+                                <span
+                                    class="text-6xl"
+                                >
                                     📝
                                 </span>
 
                             </div>
-                          `
+                        `
                 }
 
 
                 <div class="p-6">
+
+
+                    <!-- CATEGORY -->
 
                     <span
                         class="inline-flex
@@ -1475,12 +1940,16 @@ async function loadHomeBlogs() {
                                font-bold
                                uppercase"
                     >
+
                         ${escapeHTML(
                             blog.category ||
                             "General"
                         )}
+
                     </span>
 
+
+                    <!-- TITLE -->
 
                     <h3
                         class="text-xl
@@ -1492,11 +1961,16 @@ async function loadHomeBlogs() {
                                group-hover:text-blue-600
                                transition-colors"
                     >
+
                         ${escapeHTML(
-                            blog.title
+                            blog.title ||
+                            "Untitled Blog"
                         )}
+
                     </h3>
 
+
+                    <!-- CONTENT -->
 
                     <p
                         class="text-gray-500
@@ -1505,18 +1979,30 @@ async function loadHomeBlogs() {
                                line-clamp-3
                                mb-5"
                     >
+
                         ${escapeHTML(
-                            (blog.content || "")
-                                .substring(0, 140)
+                            (
+                                blog.content ||
+                                ""
+                            ).substring(
+                                0,
+                                140
+                            )
                         )}
 
                         ${
-                            (blog.content || "").length > 140
+                            (
+                                blog.content ||
+                                ""
+                            ).length > 140
                                 ? "..."
                                 : ""
                         }
+
                     </p>
 
+
+                    <!-- AUTHOR + READ MORE -->
 
                     <div
                         class="flex
@@ -1540,10 +2026,12 @@ async function loadHomeBlogs() {
                                 class="font-semibold
                                        text-gray-700"
                             >
+
                                 ${escapeHTML(
                                     blog.author ||
                                     "Unknown"
                                 )}
+
                             </span>
 
                         </div>
@@ -1562,11 +2050,32 @@ async function loadHomeBlogs() {
                                    hover:gap-2
                                    transition-all"
                         >
+
                             Read More
-                            <span>→</span>
+
+                            <span>
+                                →
+                            </span>
+
                         </a>
 
                     </div>
+
+
+                    <!-- DATE -->
+
+                    <div
+                        class="text-xs
+                               text-slate-400
+                               mt-4"
+                    >
+
+                        ${formatDate(
+                            blog.createdAt
+                        )}
+
+                    </div>
+
 
                 </div>
 
@@ -1577,55 +2086,129 @@ async function loadHomeBlogs() {
                 blogCard
             );
 
-        });
+        }
+    );
+
+}
 
 
-    } catch (error) {
+// ============================================================
+// FILTER BLOGS
+// SEARCH + CATEGORY
+// ============================================================
 
-        console.error(
-            "Home Blogs Error:",
-            error
+function filterHomeBlogs() {
+
+    const searchText =
+        blogSearch
+            ? blogSearch.value
+                .trim()
+                .toLowerCase()
+            : "";
+
+
+    const selectedCategory =
+        blogCategoryFilter
+            ? blogCategoryFilter.value
+            : "all";
+
+
+    const filteredBlogs =
+        allHomeBlogs.filter(
+            function (blog) {
+
+                const title =
+                    (
+                        blog.title ||
+                        ""
+                    ).toLowerCase();
+
+
+                const content =
+                    (
+                        blog.content ||
+                        ""
+                    ).toLowerCase();
+
+
+                const category =
+                    (
+                        blog.category ||
+                        ""
+                    ).toLowerCase();
+
+
+                // Search title + content + category
+
+                const matchesSearch =
+                    !searchText ||
+
+                    title.includes(
+                        searchText
+                    ) ||
+
+                    content.includes(
+                        searchText
+                    ) ||
+
+                    category.includes(
+                        searchText
+                    );
+
+
+                // Category filter
+
+                const matchesCategory =
+                    selectedCategory ===
+                        "all" ||
+
+                    (
+                        blog.category ||
+                        ""
+                    ) === selectedCategory;
+
+
+                return (
+                    matchesSearch &&
+                    matchesCategory
+                );
+
+            }
         );
 
 
-        homeBlogContainer.innerHTML = `
+    displayHomeBlogs(
+        filteredBlogs
+    );
 
-            <div
-                class="col-span-full
-                       bg-white
-                       rounded-3xl
-                       border border-red-100
-                       p-12
-                       text-center"
-            >
-
-                <div class="text-5xl mb-4">
-                    🔌
-                </div>
+}
 
 
-                <h3
-                    class="text-xl
-                           font-bold
-                           text-gray-900
-                           mb-2"
-                >
-                    Server connection failed
-                </h3>
+// ============================================================
+// SEARCH EVENT
+// ============================================================
+
+if (blogSearch) {
+
+    blogSearch.addEventListener(
+        "input",
+        filterHomeBlogs
+    );
+
+}
 
 
-                <p
-                    class="text-gray-500"
-                >
-                    Please make sure the backend
-                    server is running on port 5000.
-                </p>
+// ============================================================
+// CATEGORY EVENT
+// ============================================================
 
-            </div>
+if (blogCategoryFilter) {
 
-        `;
+    blogCategoryFilter.addEventListener(
+        "change",
+        filterHomeBlogs
+    );
 
-    }
 }
 
 
@@ -1665,6 +2248,7 @@ async function loadBlogDetails() {
             throw new Error(
                 "Blog ID missing."
             );
+
         }
 
 
@@ -1733,6 +2317,7 @@ async function loadBlogDetails() {
             `;
 
             return;
+
         }
 
 
@@ -1744,20 +2329,35 @@ async function loadBlogDetails() {
 
             ${
                 blog.image
-                    ? `
-                        <div class="h-72 md:h-[450px] overflow-hidden">
+
+                    ?
+
+                    `
+                        <div
+                            class="h-72
+                                   md:h-[450px]
+                                   overflow-hidden"
+                        >
 
                             <img
                                 src="${blog.image}"
-                                alt="${escapeHTML(blog.title)}"
-                                class="w-full h-full object-cover"
+                                alt="${escapeHTML(
+                                    blog.title
+                                )}"
+                                class="w-full
+                                       h-full
+                                       object-cover"
                             >
 
                         </div>
-                      `
-                    : `
+                    `
+
+                    :
+
+                    `
                         <div
-                            class="h-64 md:h-80
+                            class="h-64
+                                   md:h-80
                                    bg-gradient-to-br
                                    from-blue-500
                                    via-indigo-500
@@ -1772,7 +2372,7 @@ async function loadBlogDetails() {
                             </span>
 
                         </div>
-                      `
+                    `
             }
 
 
@@ -1780,6 +2380,9 @@ async function loadBlogDetails() {
                 class="p-7
                        md:p-10"
             >
+
+
+                <!-- CATEGORY -->
 
                 <span
                     class="inline-flex
@@ -1790,12 +2393,16 @@ async function loadBlogDetails() {
                            text-sm
                            font-bold"
                 >
+
                     ${escapeHTML(
                         blog.category ||
                         "General"
                     )}
+
                 </span>
 
+
+                <!-- TITLE -->
 
                 <h1
                     class="text-3xl
@@ -1806,11 +2413,15 @@ async function loadBlogDetails() {
                            mt-5
                            mb-6"
                 >
+
                     ${escapeHTML(
                         blog.title
                     )}
+
                 </h1>
 
+
+                <!-- AUTHOR -->
 
                 <div
                     class="flex
@@ -1838,16 +2449,20 @@ async function loadBlogDetails() {
                     <div>
 
                         <p>
+
                             Written by
 
                             <strong
                                 class="text-gray-800"
                             >
+
                                 ${escapeHTML(
                                     blog.author ||
                                     "Unknown"
                                 )}
+
                             </strong>
+
                         </p>
 
 
@@ -1856,15 +2471,19 @@ async function loadBlogDetails() {
                                    text-gray-400
                                    mt-1"
                         >
+
                             ${formatDate(
                                 blog.createdAt
                             )}
+
                         </p>
 
                     </div>
 
                 </div>
 
+
+                <!-- CONTENT -->
 
                 <div
                     class="mt-8
@@ -1873,11 +2492,16 @@ async function loadBlogDetails() {
                            leading-8
                            whitespace-pre-line"
                 >
+
                     ${escapeHTML(
-                        blog.content || ""
+                        blog.content ||
+                        ""
                     )}
+
                 </div>
 
+
+                <!-- BACK -->
 
                 <div
                     class="border-t
@@ -1897,7 +2521,9 @@ async function loadBlogDetails() {
                                hover:gap-3
                                transition-all"
                     >
+
                         ← Back to Home
+
                     </a>
 
                 </div>
@@ -1966,6 +2592,7 @@ async function loadBlogDetails() {
         `;
 
     }
+
 }
 
 
@@ -2009,11 +2636,14 @@ if (
 
                 imagePreview.src = "";
 
+
                 imagePreviewContainer.classList.add(
                     "hidden"
                 );
 
+
                 return;
+
             }
 
 
@@ -2027,9 +2657,12 @@ if (
                     "Please select an image file."
                 );
 
+
                 blogImage.value = "";
 
+
                 return;
+
             }
 
 
@@ -2048,12 +2681,16 @@ if (
                         "hidden"
                     );
 
+
                     imagePreviewContainer.style.display =
                         "block";
+
                 };
 
 
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(
+                file
+            );
 
         }
     );
@@ -2096,7 +2733,9 @@ function convertImageToBase64(file) {
                 };
 
 
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(
+                file
+            );
 
         }
     );
@@ -2111,18 +2750,26 @@ function convertImageToBase64(file) {
 function formatDate(date) {
 
     if (!date) {
+
         return "Recently";
+
     }
 
 
     try {
 
-        return new Date(date).toLocaleDateString(
+        return new Date(
+            date
+        ).toLocaleDateString(
             "en-IN",
             {
+
                 day: "numeric",
+
                 month: "short",
+
                 year: "numeric"
+
             }
         );
 
@@ -2131,6 +2778,7 @@ function formatDate(date) {
         return date;
 
     }
+
 }
 
 
@@ -2140,13 +2788,20 @@ function formatDate(date) {
 
 function escapeHTML(value) {
 
-    if (value === null || value === undefined) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
         return "";
+
     }
 
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     div.textContent =
@@ -2154,4 +2809,10 @@ function escapeHTML(value) {
 
 
     return div.innerHTML;
+
 }
+
+
+// ============================================================
+// END OF SCRIPT
+// ============================================================
