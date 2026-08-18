@@ -1,4 +1,6 @@
 const express = require("express");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const router = express.Router();
@@ -21,7 +23,6 @@ router.post("/register", async (req, res) => {
 
 
         // Validation
-
         if (!name || !email || !password) {
 
             return res.status(400).json({
@@ -41,7 +42,6 @@ router.post("/register", async (req, res) => {
 
 
         // Check existing user
-
         const existingUser =
             await User.findOne({
                 email: email.toLowerCase()
@@ -57,24 +57,27 @@ router.post("/register", async (req, res) => {
         }
 
 
-        // Create user
+        // Hash password
+        const hashedPassword =
+            await bcrypt.hash(password, 10);
 
+
+        // Create user
         const user =
             await User.create({
 
-                name: name,
+                name: name.trim(),
 
                 email:
                     email.toLowerCase(),
 
                 password:
-                    password
+                    hashedPassword
 
             });
 
 
         // Response
-
         return res.status(201).json({
 
             message:
@@ -123,6 +126,7 @@ router.post("/login", async (req, res) => {
         } = req.body;
 
 
+        // Validation
         if (!email || !password) {
 
             return res.status(400).json({
@@ -133,7 +137,6 @@ router.post("/login", async (req, res) => {
 
 
         // Find user
-
         const user =
             await User.findOne({
                 email: email.toLowerCase()
@@ -149,9 +152,15 @@ router.post("/login", async (req, res) => {
         }
 
 
-        // Check password
+        // Compare password
+        const isPasswordCorrect =
+            await bcrypt.compare(
+                password,
+                user.password
+            );
 
-        if (user.password !== password) {
+
+        if (!isPasswordCorrect) {
 
             return res.status(401).json({
                 message:
@@ -160,10 +169,32 @@ router.post("/login", async (req, res) => {
         }
 
 
+        // Create JWT
+        const token =
+            jwt.sign(
+
+                {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email
+                },
+
+                process.env.JWT_SECRET,
+
+                {
+                    expiresIn: "7d"
+                }
+
+            );
+
+
+        // Send response
         return res.status(200).json({
 
             message:
                 "Login successful.",
+
+            token,
 
             user: {
 

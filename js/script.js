@@ -163,10 +163,10 @@ if (registerForm) {
 
                             method: "POST",
 
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
+                          headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+},
 
                             body:
                                 JSON.stringify({
@@ -296,10 +296,10 @@ if (loginForm) {
 
                             method: "POST",
 
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
+                           headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+},
 
                             body:
                                 JSON.stringify({
@@ -332,9 +332,11 @@ if (loginForm) {
 
                 // Save logged in user
 
-                saveLoggedInUser(
-                    data.user
-                );
+              // Save logged in user
+saveLoggedInUser(data.user);
+
+// Save JWT token
+localStorage.setItem("token", data.token);
 
 
                 // Redirect to dashboard
@@ -415,9 +417,8 @@ if (logoutBtn) {
             event.preventDefault();
 
 
-            localStorage.removeItem(
-                "loggedInUser"
-            );
+            localStorage.removeItem("loggedInUser");
+localStorage.removeItem("token");
 
 
             window.location.href =
@@ -604,10 +605,10 @@ if (blogForm) {
 
                                     method: "POST",
 
-                                    headers: {
-                                        "Content-Type":
-                                            "application/json"
-                                    },
+                                   headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+},
 
                                     body:
                                         JSON.stringify({
@@ -695,10 +696,10 @@ if (blogForm) {
 
                                     method: "PUT",
 
-                                    headers: {
-                                        "Content-Type":
-                                            "application/json"
-                                    },
+                                   headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+},
 
                                     body:
                                         JSON.stringify(
